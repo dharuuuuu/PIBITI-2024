@@ -39,7 +39,15 @@
                     <div class="card-body">
                         <div class="d-flex">
                             <div>Total</div>
-                            <div class="ms-auto mb-0 fw-bold">Rp{{ number_format($order->total) }}</div>
+                            <div class="ms-auto mb-0">Rp{{ number_format($order->total) }}</div>
+                        </div>
+                        <div class="d-flex">
+                            <div>Discount</div>
+                            <div class="ms-auto mb-0">{{ $order->discount }}%</div>
+                        </div>
+                        <div class="d-flex">
+                            <div>Sub Total</div>
+                            <div class="ms-auto mb-0 fw-bold">Rp{{ number_format($order->sub_total) }}</div>
                         </div>
 
                         <div class="d-flex">
@@ -49,7 +57,7 @@
 
                         <div class="d-flex">
                             <div>Kembalian</div>
-                            <div class="ms-auto mb-0">Rp{{ number_format($order->payment - $order->total) }}</div>
+                            <div class="ms-auto mb-0">Rp{{ number_format($order->payment - $order->sub_total) }}</div>
                         </div>
                     </div>
                 </div>

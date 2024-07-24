@@ -11,7 +11,7 @@ class DashboardController extends Controller
     public function index()
     {
         $productsSold = OrderDetail::query()->sum('qty');
-        $revenue = Order::query()->sum('total');
+        $revenue = Order::query()->sum('sub_total');
         $ordersCount = Order::query()->count();
         $productsCount = Product::query()->count();
 

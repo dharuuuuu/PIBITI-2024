@@ -57,9 +57,18 @@
 
                     <div class="card-body border-bottom fw-bold">Summary</div>
 
-                    <div class="card-body border-bottom">
+                    <div class="card-body">
                         <x-text-input name="customer" label="Customer"
                             value="{{ session('order')->customer }}"></x-text-input>
+                        
+                        <label for="discount" class="form-label">Discount</label>
+                        <select name="discount" id="discount" class="form-control" onchange="calculateTotal()">
+                            <option disabled selected value="0">-</option>
+                            @forelse ($discounts as $discount)
+                                <option value="{{ $discount->total_discount }}" data-percentage="{{ $discount->total_discount }}">{{ $discount->nama_discount }} - {{ $discount->total_discount }}%</option>
+                            @empty
+                            @endforelse
+                        </select>
                     </div>
 
                     <div class="card-body bg-body-tertiary border-bottom">
@@ -95,8 +104,12 @@
 
                     <div class="card-body border-bottom d-grid gap-2">
                         <div class="d-flex justify-content-between">
+                            <div>Discount</div>
+                            <h4 class="ms-auto mb-0 fw-bold" id="discount-amount">Rp0</h4>
+                        </div>
+                        <div class="d-flex justify-content-between">
                             <div>Total</div>
-                            <h4 class="ms-auto mb-0 fw-bold">Rp{{ number_format($total) }}</h4>
+                            <h4 class="ms-auto mb-0 fw-bold" id="total-amount">Rp{{ number_format($total) }}</h4>
                         </div>
                         <div>
                             <x-text-input name="payment" label="Payment" type="number"></x-text-input>
@@ -111,4 +124,31 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function calculateTotal() {
+            // Get the total amount from the PHP variable
+            let total = {{ $total }};
+            
+            // Get the selected discount percentage
+            const discountSelect = document.getElementById('discount');
+            const selectedDiscount = discountSelect.options[discountSelect.selectedIndex];
+            const discountPercentage = selectedDiscount.getAttribute('data-percentage') || 0;
+            
+            // Calculate discount amount
+            const discountAmount = total * (discountPercentage / 100);
+            
+            // Calculate new total after discount
+            const newTotal = total - discountAmount;
+            
+            // Update the discount and total amounts in the DOM
+            document.getElementById('discount-amount').innerText = 'Rp' + discountAmount.toLocaleString('id-ID');
+            document.getElementById('total-amount').innerText = 'Rp' + newTotal.toLocaleString('id-ID');
+        }
+
+        // Initial calculation when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            calculateTotal();
+        });
+    </script>
 </x-layout>

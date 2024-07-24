@@ -45,6 +45,10 @@
                         href="{{ route('products.index') }}">
                         Products
                     </a>
+                    <a class="nav-link {{ request()->routeIs('discounts.index') ? 'active' : '' }}"
+                        href="{{ route('discounts.index') }}">
+                        Discounts
+                    </a>
                     <a class="nav-link {{ request()->routeIs('users.index') }}" href="{{ route('users.index') }}">
                         Users
                     </a>

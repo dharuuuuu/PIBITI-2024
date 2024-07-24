@@ -48,8 +48,10 @@
                     <tr>
                         <th>No</th>
                         <th>Customer</th>
-                        <th>Payment</th>
                         <th>Total</th>
+                        <th>Discount</th>
+                        <th>Sub Total</th>
+                        <th>payment</th>
                         <th>User</th>
                         <th>Tanggal</th>
                         <th></th>
@@ -61,8 +63,10 @@
                         <tr>
                             <td>Order #{{ $order->id }}</td>
                             <td>{{ $order->customer }}</td>
-                            <td>{{ number_format($order->payment) }}</td>
                             <td>{{ number_format($order->total) }}</td>
+                            <td>{{ $order->discount }}%</td>
+                            <td>{{ number_format($order->sub_total) }}</td>
+                            <td>{{ number_format($order->payment) }}</td>
                             <td>{{ $order->user->name }}</td>
                             <td>{{ $order->formatted_created_at }}</td>
                             <td class="text-end">

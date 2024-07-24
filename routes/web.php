@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureOrderExistMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
+    Route::resource('discounts', DiscountController::class);
     Route::resource('users', UserController::class);
 
     Route::get('/orders', [OrderController::class, 'index'])

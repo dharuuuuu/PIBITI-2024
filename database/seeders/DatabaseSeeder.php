@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
     {
         User::query()->create([
             'name' => 'Admin',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('password'),
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('admin'),
         ]);
 
         $this->call(CategorySeeder::class);

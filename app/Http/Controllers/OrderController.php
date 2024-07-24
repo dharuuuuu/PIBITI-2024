@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Discount;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
@@ -47,6 +48,7 @@ class OrderController extends Controller
             session(['order' => $order]);
         }
 
+        $discounts = Discount::query()->where('active', 1)->get();
         $categories = Category::query()->where('active', 1)->get();
         $productsQuery = Product::query()->where('active', 1);
 
@@ -63,6 +65,7 @@ class OrderController extends Controller
         return view('order.create', [
             'categories' => $categories,
             'products' => $products,
+            'discounts' => $discounts,
         ]);
     }
 
@@ -119,13 +122,18 @@ class OrderController extends Controller
             $total += $detail->qty * $detail->price;
         }
 
-        if ($request->payment < $total) {
+        $sub_total = $total - ($total * ($request->discount / 100));
+
+        if ($request->payment < $sub_total) {
             return back()->withInput()->withErrors(['payment' => 'Payment tidak mencukupi']);
         }
+        
 
         $order->customer = $request->customer;
         $order->payment = $request->payment;
+        $order->discount = $request->discount;
         $order->total = $total;
+        $order->sub_total = $sub_total;
         $order->save();
         $order->details()->saveMany($order->details);
 
